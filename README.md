@@ -1,13 +1,18 @@
 # prj_vault_learning
 Vault Learning Project
 
-Running the Vault server in Dev Mode - Run this in a dedicated terminal window
+### Pre-requisites (This can be completed by running the InstallScript.ps1 instead)
+1. Download Vault
+2. Download Terraform
+3. Add them to PATH for convenience
+
+### Running the Vault server in Dev Mode - Run this in a dedicated terminal window <br/>
 To run the vault server in dev mode (we are explicitly setting the root token value for simplicity):
 ```
 vault server -dev -dev-root-token-id root
 ```
 
-Configuration as code steps
+### Configuration as code steps <br/>
 To initialize terraform and download providers:
 ```
 terraform init
