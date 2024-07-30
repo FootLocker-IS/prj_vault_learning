@@ -11,6 +11,18 @@ To run the vault server in dev mode (we are explicitly setting the root token va
 ```
 vault server -dev -dev-root-token-id root
 ```
+Set the VAULT_ADDR environment variable:
+```
+# Permanent environment variable
+[Environment]::SetEnvironmentVariable("VAULT_ADDR", "http://127.0.0.1:8200", [System.EnvironmentVariableTarget]::User)
+# Only set the environment variable for the active powershell session
+$env:VAULT_ADDR="http://127.0.0.1:8200"
+```
+Set the VAULT_TOKEN environment variable:
+```
+# Only set the environment variable for the active powershell session
+$env:VAULT_TOKEN="root"
+```
 
 ### Configuration as code steps <br/>
 To initialize terraform and download providers:
