@@ -7,19 +7,33 @@ resource "vault_auth_backend" "userpass" {
   }
 }
 
-# Create a user, 'intern'
+# Create a user entity, 'intern'
+resource "vault_identity_entity" "intern" {
+    name = "intern"
+    policies = [vault_policy.default_userpass_user.name]
+    metadata = {
+        company = "Foot Locker"
+        department = "Information Security"
+    }
+}
+# Create the userpass alias for intern
+resource "vault_identity_entity_alias" "intern" {
+  name = "intern"
+  mount_accessor = vault_auth_backend.userpass.accessor
+  canonical_id = vault_identity_entity.intern.id
+}
+# Set the initial password for intern
 resource "vault_generic_endpoint" "intern" {
-  depends_on           = [vault_auth_backend.userpass]
-  path                 = "auth/userpass/users/intern"
+  depends_on           = [vault_identity_entity_alias.intern] # depends_on is usually not needed, terraform will resolve code dependencies automatically
+  path                 = "auth/userpass/users/${vault_identity_entity_alias.intern.name}"
   ignore_absent_fields = true
 
   data_json = <<EOT
     {
-        "policies": ["${vault_policy.kv-v2_owner.name}", "${vault_policy.default_userpass_user.name}", "${vault_policy.transit_payment.name}"],
         "password": "changeme"
     }
     EOT
-#   lifecycle {
-#     ignore_changes = [data_json]
-#   }
+  lifecycle {
+    ignore_changes = [data_json]
+  }
 }
