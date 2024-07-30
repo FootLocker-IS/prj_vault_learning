@@ -1,0 +1,4 @@
+1. Assign the transit_payment policy to the intern user
+2. Create encrpyted data via the portal or cli and try to decrypt it
+3. Update the policy transit_policy using terraform to allow data decryption
+4. Test it out (you can use https://www.base64decode.org/ to convert the returned base64 data if needed)
